@@ -20,10 +20,10 @@ def generate_sudoku(mask_rate=0.5):
             break
         except ValueError:
             pass
-    print("Answer:\n", m)
+    
     mm = m.copy()
     mm[np.random.choice([True, False], size=m.shape, p=[mask_rate, 1 - mask_rate])] = 0
-    print("\nMasked anwser:\n", mm)
+    
     np.savetxt("./puzzle.csv", mm, "%d", delimiter=",")
     return mm
 
@@ -59,7 +59,7 @@ def solve(m):
         if np.all(mt != 0):
             break
 
-    print("\nTrail:\n", mt)
+    
     return mt
 
 
@@ -84,12 +84,13 @@ def check_solution(m):
         print("\nChecked: not good")
     else:
         print("\nChecked: OK")
+        print(m)
 
 
 if __name__ == "__main__":
     puzzle = generate_sudoku(mask_rate=0.7)
-    solved = solve(puzzle)
-    check_solution(solved)
+    #solved = solve(puzzle)
+    #check_solution(solved)
 
     print("\nSolve in code:")
     solve([
@@ -105,5 +106,19 @@ if __name__ == "__main__":
     ]
     )
 
-    print("\nSolve in csv file:")
-    solve("puzzle.csv")
+    check_solution(solve([
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9]   
+    ])
+    )
+
+    #print("\nSolve in csv file:")
+    #solve("puzzle.csv")
+    #check_solution(solve("puzzle.csv"))
